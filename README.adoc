@@ -3,7 +3,7 @@
 This is a simple Java application declaring a single servlet using `WebServlet`.
 It uses:
 
-- Java 12
+- Java 11
 - Jetty Maven plugin
 
 === Steps of building the application
@@ -88,5 +88,24 @@ And access `http://localhost:8080/simple/`. You should see 'Hello World!' in the
 7. Add the servlet class:
 
 ```
+package com.ic.web;
 
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+
+@WebServlet(name = "InfoServlet", urlPatterns = {"/info"})
+public class InfoServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("text/plain");
+        resp.getWriter( ).write( "This is a simple Java application declaring a single servlet using `WebServlet` using Java 11 and Jetty Maven plugin." ) ;
+    }
+}
 ```
+
+8. Test the servlet by accessing `http://localhost:8080/simple/info`
