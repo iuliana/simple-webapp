@@ -1,0 +1,92 @@
+== Simple Jetty Webapp
+
+This is a simple Java application declaring a single servlet using `WebServlet`.
+It uses:
+
+- Java 12
+- Jetty Maven plugin
+
+=== Steps of building the application
+
+1. Generate project structure.
+
+`mvn archetype:generate -DgroupId=com.ic.web -DartifactId=simple-webapp -DarchetypeArtifactId=maven-archetype-webapp`
+
+2. Load in IntelliJ IDEA.
+
+3. Add Servlet dependency in the pom.xml file.
+
+```
+<dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+</dependency>
+```
+
+5. Add plugins configuration:
+
+- to build war
+- to configure app context
+- to declare Java version used
+
+```
+<plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.3</version>
+        <configuration>
+          <warSourceDirectory>src/main/webapp</warSourceDirectory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>9.4.16.v20190411</version>
+        <configuration>
+          <scanIntervalSeconds>10</scanIntervalSeconds>
+          <webApp>
+            <contextPath>/simple</contextPath>
+          </webApp>
+        </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <source>12</source>
+            <target>12</target>
+          </configuration>
+      </plugin>
+</plugins>
+```
+
+5. Modify the `web.xml` to:
+
+```
+<web-app
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+        version="3.0">
+  <display-name>Archetype Created Web Application</display-name>
+</web-app>
+
+```
+
+6. Maybe test the configuration, by running:
+```
+$ mvn clean install
+$ mvn jetty: run
+```
+And access `http://localhost:8080/simple/`. You should see 'Hello World!' in the page returned by the browser.
+
+7. Add the servlet class:
+
+```
+
+```
