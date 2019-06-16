@@ -36,10 +36,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 1.0
  */
 @Controller
-@RequestMapping("/index")
 public class IndexController {
 
-    @GetMapping
+    @GetMapping({"/", "/index"})
     public String frontPage(){
         return "index";
     }

@@ -1,0 +1,16 @@
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: INFO
+    org.springframework.security: TRACE
+    com.ic.secured: DEBUG
+server:
+  servlet:
+    context-path: /secured
+  port: 8080
+spring:
+  mvc:
+    view:
+      prefix: "/WEB-INF/views/"
+      suffix: ".jsp"
