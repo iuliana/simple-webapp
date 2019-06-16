@@ -25,24 +25,23 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package com.ic.web;
+package com.ic.secured.web;
 
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@WebServlet(name = "InfoServlet", urlPatterns = {"/info"})
-public class InfoServlet extends HttpServlet {
+@Controller
+@RequestMapping("/index")
+public class IndexController {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("text/plain");
-        resp.getWriter( ).write( "This is a simple Java application declaring a single servlet using `WebServlet` using Java 11 and Jetty Maven plugin." ) ;
+    @GetMapping
+    public String frontPage(){
+        return "index";
     }
+
 }
