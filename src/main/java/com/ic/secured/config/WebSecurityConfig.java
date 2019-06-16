@@ -44,9 +44,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author Iuliana Cosmina
  * @since 1.0
  */
-@Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
