@@ -30,20 +30,13 @@ package com.ic.secured.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
 /**
  * @author Iuliana Cosmina
@@ -52,7 +45,7 @@ import javax.servlet.ServletRegistration;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.ic.secured"})
-public class SpringAppConfig implements WebMvcConfigurer, WebApplicationInitializer {
+public class SpringAppConfig extends AbstractAnnotationConfigDispatcherServletInitializer implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -69,19 +62,21 @@ public class SpringAppConfig implements WebMvcConfigurer, WebApplicationInitiali
     }
 
     @Override
-    public void onStartup(ServletContext container) throws ServletException {
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(SpringAppConfig.class);
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class<?>[]{
+                WebSecurityConfig.class
+        };
+    }
 
-        // Manage the lifecycle of the root application context
-        container.addListener(new ContextLoaderListener(rootContext));
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return new Class<?>[]{
+                SpringAppConfig.class
+        };
+    }
 
-        // Create the dispatcher servlet's Spring application context
-        AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-
-        // Register and map the dispatcher servlet
-        ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
     }
 }
